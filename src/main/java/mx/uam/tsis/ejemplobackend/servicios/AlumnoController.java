@@ -18,7 +18,7 @@ import mx.uam.tsis.ejemplobackend.negocio.modelo.Alumno;
 /**
  * Controlador para el API rest
  * 
- * @author humbertocervantes
+ *
  *
  */
 @RestController
@@ -33,7 +33,7 @@ public class AlumnoController {
 		
 		// No se deben agregar dos alumnos con la misma matricula
 		
-		log.info("Recibí llamada a create con "+nuevoAlumno);
+		//log.info("RecibÃ­ llamada a create con "+nuevoAlumno);
 		
 		alumnoRepository.put(nuevoAlumno.getMatricula(), nuevoAlumno);
 		
@@ -48,7 +48,7 @@ public class AlumnoController {
 
 	@GetMapping(path = "/alumnos/{matricula}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity <?> retrieve(@PathVariable("matricula") Integer matricula) {
-		log.info("Buscando al alumno con matricula "+matricula);
+		//log.info("Buscando al alumno con matricula "+matricula);
 		
 		Alumno alumno = alumnoRepository.get(matricula);
 		
@@ -60,13 +60,32 @@ public class AlumnoController {
 		
 		
 	}
-	/*
-	public update() {
+
+	@PutMapping(path = "/alumnos/{matricula}/{carrera}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@PathVariable("matricula") Integer matricula,@PathVariable("carrera") String carrera ) {
+		Alumno alumno = alumnoRepository.get(matricula);
+		System.out.println("ALUMNO"+alumno);
+		if(alumno != null) {
+			alumno.setCarrera(carrera);
+			return ResponseEntity.status(HttpStatus.OK).body(alumno);
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 		
 	}
 	
-	public delete() {
+	
+	@DeleteMapping(path="/alumnos/{matricula}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity <?>delete(@PathVariable("matricula") Integer matricula) {
+		alumnoRepository.remove(matricula);
+		Alumno alumno = alumnoRepository.get(matricula);
+		if(alumno==null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(alumnoRepository.values());
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 		
-	}*/
+		
+	}
  
 }
