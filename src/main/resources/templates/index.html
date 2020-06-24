@@ -1,5 +1,90 @@
+<!DOCTYPE html>
 <html>
-	<body>
-		Hola Spring Boot!
-	</body>
+<head>
+<script src="/lib/jquery-1.12.2.min.js"></script>
+<script>
+
+ 	
+</script>
+</head>
+<body>
+
+	<h1>Resgistrar alumno</h1>
+
+
+   <label >Matricula:</label>
+   <input type="text"><br><br>
+   <label >Nombre</label>
+   <input type="text"><br><br>
+   <label >Carrera</label>
+   <input type="text"><br><br>
+   <button onclick="registra()">Registra</button>
+ 
+   <h1>Recupera alumno</h1>
+   <label >Matricula:</label>
+   <input type="text"><br><br>
+   <button onclick="recupera()">Recupera</button>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/lib/jquery-1.12.2.min.js"></script>
+<script >
+function registra(){
+	console.log("lokjkkk");	
+	
+	$.post( "http://localhost:8080/alumnos", {"matricula":12,"nombre":"jaz","carrera":"quimica"}, null, "json" )
+    .done(function( data, textStatus, jqXHR ) {
+        if ( console && console.log ) {
+            console.log( "La solicitud se ha completado correctamente." );
+        }
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+        if ( console && console.log ) {
+            console.log( "La solicitud a fallado: " +  textStatus);
+        }
+});
+	
+	
+}
+
+function recupera(){
+console.log("entre a recupera");
+
+$.ajax({
+    // la URL para la petición
+    url : 'http://localhost:8080/alumnos/',
+
+    // la información a enviar
+    // (también es posible utilizar una cadena de datos)
+    data : {"matricula":12346},
+
+    // especifica si será una petición POST o GET
+    type : 'GET',
+
+    // el tipo de información que se espera de respuesta
+    dataType : 'json',
+
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(json) {
+       console.log("entre a recupera"+json);
+    },
+
+    // código a ejecutar si la petición falla;
+    // son pasados como argumentos a la función
+    // el objeto de la petición en crudo y código de estatus de la petición
+    error : function(xhr, status) {
+        alert('Disculpe, existió un problema');
+    },
+
+    // código a ejecutar sin importar si la petición falló o no
+    complete : function(xhr, status) {
+        alert('Petición realizada');
+    }
+});
+
+
+}
+</script>
 </html>
